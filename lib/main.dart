@@ -3,6 +3,7 @@ import 'package:pklonline/locator.dart';
 import 'package:pklonline/services/navigation_service.dart';
 import 'package:pklonline/ui/router.dart';
 import 'package:pklonline/ui/views/login_view.dart';
+import 'package:pklonline/ui/views/startup_view.dart';
 
 void main() {
   setupLocator();
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: locator<NavigationService>().navigationKey,
       onGenerateRoute: generateRoute,
-      home: LoginView(),
+      home: StartUpView(),
     );
   }
 }
