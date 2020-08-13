@@ -32,7 +32,27 @@ class AbsenViewModel extends BaseModel {
   String address = '';
   String pathLocation = 'data/kehadiran/image/';
 
+  String kindOfReport = '#Laporan Kehadiran';
   TextEditingController commentController = TextEditingController();
+
+  void getValueRadio(int value) {
+    switch (value) {
+      case 1:
+        kindOfReport = '#Laporan Kehadiran';
+        break;
+      case 2:
+        kindOfReport = '#Laporan Tugas/PKL';
+        break;
+      case 3:
+        kindOfReport = '#Laporan Mobilitas';
+        break;
+      default:
+        {
+          kindOfReport = '#Tidak Ada Laporan Khusus';
+        }
+        break;
+    }
+  }
 
   Future<void> cameraView() async {
     try {
@@ -44,7 +64,8 @@ class AbsenViewModel extends BaseModel {
       await getLocation();
       print(imagePath);
     } on NoSuchMethodError catch (ne) {
-      throw StateError('On Back Pressed after no capture photo: ' + ne.toString());
+      throw StateError(
+          'On Back Pressed after no capture photo: ' + ne.toString());
     } on NullThrownError catch (nue) {
       throw StateError('NullThrownError: ' + nue.toString());
     } on Exception catch (e) {
@@ -52,18 +73,19 @@ class AbsenViewModel extends BaseModel {
     }
   }
 
-void openLocationSetting() async {
+  void openLocationSetting() async {
     // final AndroidIntent intent = new AndroidIntent(
     //   action: 'android.settings.LOCATION_SOURCE_SETTINGS',
     // );
     // await intent.launch();
     await _locationService.checkService();
   }
+
   void sendMessages(BuildContext context) async {
     setBusy(true);
 
-   final date = DateTime.now().millisecondsSinceEpoch.toString();
-    final timestamp = date.substring(0,10); 
+    final date = DateTime.now().millisecondsSinceEpoch.toString();
+    final timestamp = date.substring(0, 10);
     final name = await _storageService.getString(K_NAME);
     final company = await _storageService.getString(K_COMPANY);
     final unit = await _storageService.getString(K_UNIT);
@@ -121,7 +143,7 @@ void openLocationSetting() async {
     final position = await _storageService.getString(K_POSITION);
     final unit = await _storageService.getString(K_UNIT);
     final date = DateTime.now().millisecondsSinceEpoch.toString();
-    final timestamp = date.substring(0,10);
+    final timestamp = date.substring(0, 10);
 
     final data = await _apiService.report(
         pathLocation + guid + '-' + imagePath,
@@ -163,17 +185,16 @@ void openLocationSetting() async {
 
   Future<void> getLocation() async {
     setBusy(true);
-    try{
-    final userLocation = await _geolocatorService.getCurrentLocation();
-    lat = userLocation.latitude;
-    lng = userLocation.longitude;
-    address = userLocation.addressLine;
-    setBusy(false);
-
-    }catch(e){
+    try {
+      final userLocation = await _geolocatorService.getCurrentLocation();
+      lat = userLocation.latitude;
+      lng = userLocation.longitude;
+      address = userLocation.addressLine;
+      setBusy(false);
+    } catch (e) {
       setBusy(false);
 
-      cameraView();      
+      cameraView();
     }
   }
 }
