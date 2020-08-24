@@ -12,19 +12,20 @@ class HomeView extends StatelessWidget {
     // TODO: implement build
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
+      onModelReady: (model) => model.onModelReady(),
       builder: (context, model, child) => Scaffold(
           body: SafeArea(
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: model.absenData.length,
               itemBuilder: (context, i) {
                 return ListContentWidget(
-                  content: 'Laporan Tentang Sesuatu',
-                  date: '19299202002',
-                  address: 'Komplek Padasuka ',
+                  content: '${model.absenData[i].description}',
+                  date: '${model.absenData[i].timestamp}',
+                  address: '${model.absenData[i].address}',
                   imageUrl:
-                      'https://cdn.pixabay.com/photo/2017/02/16/23/10/smile-2072907_1280.jpg',
-                  name: 'Deral Alvin',
-                  imageLocal: '-',
+                      'http://pklonline.pptik.id/${model.absenData[i].image}',
+                  name: '${model.absenData[i].name}',
+                  imageLocal: '${model.absenData[i].localImage}',
                 );
               },
             ),

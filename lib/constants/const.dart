@@ -1,15 +1,15 @@
 const BASE_URL = 'http://api.absensi-selfie.pptik.id:5006/';
-const BASE_URL_V2 = 'https://absensiselfie-api.pptik.id:5026/';
+const BASE_URL_V2 = 'https://pklonline.pptik.id:5029/';
 
 const FTP_URL = "ftpf.absensi-selfie.pptik.id";
 const FTP_PORT = 2121;
 const FTP_USERNAME = "absensi_selfie";
 const FTP_PASSWORD = "absensi_selfie123|pptik";
 
-const PROD_FTP_URL = "ftpf.absensi-selfie.pptik.id";
+const PROD_FTP_URL = "ftp5.pptik.id";
 const PROD_FTP_PORT = 2121;
-const PROD_FTP_USERNAME = "absensi_selfie";
-const PROD_FTP_PASSWORD = "absensi_selfie123|pptik";
+const PROD_FTP_USERNAME = "pklonline-pptik";
+const PROD_FTP_PASSWORD = "PKLOnlIne12";
 
 const RMQ_HOST = 'rmq2.pptik.id';
 const RMQ_USERNAME = 'akutest';

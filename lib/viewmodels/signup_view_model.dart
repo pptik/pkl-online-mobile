@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:pklonline/constants/const.dart';
+// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/material.dart';
+import 'package:pklonline/constants/helper.dart';
 import 'package:pklonline/constants/route_name.dart';
 import 'package:pklonline/locator.dart';
 import 'package:pklonline/services/alert_service.dart';
@@ -9,8 +13,6 @@ import 'package:pklonline/services/guid_service.dart';
 import 'package:pklonline/services/navigation_service.dart';
 import 'package:pklonline/services/storage_service.dart';
 import 'package:pklonline/viewmodels/base_model.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/material.dart';
 
 class SignUpViewModel extends BaseModel {
   final ApiService _apiService = locator<ApiService>();
@@ -20,9 +22,21 @@ class SignUpViewModel extends BaseModel {
   final StorageService _storageService = locator<StorageService>();
 
   List<String> units = List();
+  List<String> profesi = List();
+  List<String> areasList = List();
+  List<Item> areaForDistrcit = List();
+  List<dynamic> districts = List();
+  List<String> jurusanList = List();
+
   String unitSelected;
-  String company;
+  String profesiSelected = "PKL ONLINE";
+  String areasSelected;
+  String districtSelected;
+  String jurusanSelected;
+  String company = "PKLO1";
   String imagePath;
+
+  bool eula = false;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController positionController = TextEditingController();
@@ -30,8 +44,29 @@ class SignUpViewModel extends BaseModel {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneNumberCotroller = TextEditingController();
   TextEditingController idCardController = TextEditingController();
+
+  void showEulas(BuildContext context) {
+    _alertService.showSuccess(
+        context,
+        "AMARI COVID19 End-User License Agreement \n (\"Agreement\")",
+        Helper.eula_content,
+        _navigationService.pop);
+  }
+
+  void onChangeEula(bool value) {
+    eula = value;
+  }
+
+  Future<String> loadAsset() async {
+    final a = await rootBundle.loadString('assets/level1.csv');
+    final ab = json.decode(a);
+    print(ab[0]);
+    print(ab);
+  }
+
   void register(BuildContext context) async {
     setBusy(true);
+    print('ini adalah image path $imagePath');
     try {
       if (nameController.text.length != null &&
           positionController.text.length != null &&
@@ -39,8 +74,8 @@ class SignUpViewModel extends BaseModel {
           passwordController.text.length != null &&
           phoneNumberCotroller.text.length != null &&
           company.length != null &&
-          unitSelected.length != null &&
-          imagePath.length != null) {
+          imagePath.length != null &&
+          profesiSelected != null) {
         final name = nameController.text;
         final email = emailController.text;
         final position = positionController.text;
@@ -48,15 +83,17 @@ class SignUpViewModel extends BaseModel {
         final phoneNumber = phoneNumberCotroller.text;
         final idCard = idCardController.text;
         final companies = company;
+        print(companies);
+        print(profesiSelected);
         final data = await _apiService.register(
           name,
           email,
           password,
-          position,
+          profesiSelected,
           idCard,
           companies,
           imagePath,
-          unitSelected,
+          profesiSelected,
           phoneNumber,
           File(imagePath),
         );
@@ -65,16 +102,13 @@ class SignUpViewModel extends BaseModel {
           setBusy(false);
 
           // navigate to home
-          _alertService
-              .showSuccess(context, "Success", "Successfully Registered", () {
-            _navigationService.replaceTo(LoginViewRoute);
-          });
+          _navigationService.replaceTo(LoginViewRoute);
         } else {
           setBusy(false);
 
           // User already registered
           _alertService.showError(context, 'Error',
-              'Something went wrong ${data.message}', _navigationService.pop);
+              'Something went wrong ' + data.message, _navigationService.pop);
         }
       } else {
         setBusy(false);
@@ -82,8 +116,9 @@ class SignUpViewModel extends BaseModel {
             'Please fill in all fields', _navigationService.pop);
       }
     } catch (e) {
-      _alertService.showError(
-          context, 'Error', 'Please check once again', _navigationService.pop);
+      print(e.toString());
+      _alertService.showError(context, 'Error',
+          'Please check once again ${e.toString()}', _navigationService.pop);
     }
     setBusy(false);
   }
@@ -103,6 +138,45 @@ class SignUpViewModel extends BaseModel {
   void onUnitChanged(String value) {
     unitSelected = value;
     setBusy(false);
+  }
+
+  void getDistrict(String value) {
+    districts.clear();
+    jurusanList.clear();
+    districtSelected = null;
+    jurusanSelected = null;
+//    print(areaForDistrcit.where((element) => element.areasDistrict==value).toList());
+//
+//    List<Item> data = areaForDistrcit.where((element) => element.areasDistrict==value).toList();
+//    districts.addAll(data)
+    for (int i = 0; i < areaForDistrcit.length; i++) {
+      if (areaForDistrcit[i].areasDistrict == value) {
+        districts.addAll(areaForDistrcit[i].district);
+      }
+    }
+  }
+
+  void onJurusanChanged(String value) {
+    jurusanSelected = value;
+    setBusy(false);
+    company = value.split('-')[1];
+    print(value.split('-')[1]);
+  }
+
+  bool changeVisibilityDistrict() {
+    if (districts == null || districts.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool changeVisibilityAreas() {
+    if (areasList == null || areasList.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   bool changeVisibility() {
@@ -131,4 +205,10 @@ class SignUpViewModel extends BaseModel {
     print('units => $units');
     print('visi => ${changeVisibility()}');
   }
+}
+
+class Item {
+  String areasDistrict;
+  List district;
+  Item(this.areasDistrict, this.district);
 }

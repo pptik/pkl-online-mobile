@@ -43,6 +43,11 @@ class StartUpView extends StatelessWidget {
                     Theme.of(context).primaryColor,
                   )),
               verticalSpaceMedium,
+              SizedBox(
+                width: 300,
+                height: 100,
+                child: Image.asset('Assets/img/logo.png'),
+              ),
               verticalSpaceMedium,
               Text(
                 '1.0.2',

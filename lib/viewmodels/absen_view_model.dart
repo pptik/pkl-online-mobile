@@ -99,7 +99,7 @@ class AbsenViewModel extends BaseModel {
           address: '$address',
           cmdType: 0,
           company: '$company',
-          description: '${commentController.text}',
+          description: '#PKL Online${kindOfReport}#${commentController.text}',
           guid: '$guid',
           image: '$pathLocation$guid$timestamp-PPTIK.jpg',
           lat: '$lat',
