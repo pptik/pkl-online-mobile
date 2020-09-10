@@ -15,7 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as Path;
 
 class ApiService {
-    Future<ResponseRegister> register(
+  Future<ResponseRegister> register(
     String name,
     String email,
     String password,
@@ -25,11 +25,9 @@ class ApiService {
     String localImage,
     String unit,
     String phonenumber,
-    File imageFile,  
-    ) async {
+    File imageFile,
+  ) async {
     try {
-
-      
       final stream =
           http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
       final length = await imageFile.length();
@@ -61,7 +59,7 @@ class ApiService {
       return null;
     }
   }
-  
+
   Future<LoginData> newLogin(String email, String password) async {
     final client = http.Client();
     try {
@@ -128,7 +126,7 @@ class ApiService {
   Future<CompanyUnitData> getCompanyUnit(String companyCode) async {
     final client = http.Client();
     try {
-      final reportUrl = '${BASE_URL}company/$companyCode/units?code=true';
+      final reportUrl = '${BASE_URL_V2}company/$companyCode/units?code=true';
       final response = await client.get(reportUrl);
       final companyUnitData = companyUnitDataFromJson(response.body);
 
@@ -220,27 +218,20 @@ class ApiService {
     }
   }
 
-  Future<ChangePasswordData> changePassword(
-    String email,
-    String currentPw,
-    String newPw,
-    String confirmationPw
-  ) async {
+  Future<ChangePasswordData> changePassword(String email, String currentPw,
+      String newPw, String confirmationPw) async {
     final client = http.Client();
-    try{
+    try {
       final processUrl = '${BASE_URL_V2}users/change-password';
-      final response = await client.patch(
-        processUrl,
-        body: {
-          'email':email,
-          'current_password':currentPw,
-          'new_password':newPw,
-          'new_password_confirmation':confirmationPw
-        }
-      );
+      final response = await client.patch(processUrl, body: {
+        'email': email,
+        'current_password': currentPw,
+        'new_password': newPw,
+        'new_password_confirmation': confirmationPw
+      });
       final changePasswordData = changePasswordDataFromJson(response.body);
       return changePasswordData;
-    }catch(e){
+    } catch (e) {
       print('[ChangePasswordData] error occurred $e');
       return null;
     }

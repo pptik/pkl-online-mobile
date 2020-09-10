@@ -7,6 +7,7 @@ import 'package:pklonline/models/send_absen.dart';
 import 'package:pklonline/services/alert_service.dart';
 import 'package:pklonline/services/api_service.dart';
 import 'package:pklonline/services/geolocator_service.dart';
+import 'package:pklonline/services/location_service.dart';
 import 'package:pklonline/services/navigation_service.dart';
 import 'package:pklonline/services/rmq_service.dart';
 import 'package:pklonline/services/storage_service.dart';
@@ -21,7 +22,7 @@ class HomeViewModel extends BaseModel {
   final AlertService _alertService = locator<AlertService>();
   final RMQService _rmqService = locator<RMQService>();
   final GeolocatorService _geolocatorService = locator<GeolocatorService>();
-
+  final LocationService _locationService = locator<LocationService>();
   bool isLoading = false;
   int totalPages = 0;
   int pages = 1;
@@ -31,10 +32,20 @@ class HomeViewModel extends BaseModel {
   ReportData data;
   List<AbsenData> absenData = List();
 
-  void onModelReady() {
+  String formatDate(int date) {
+    var tempData =
+        new DateTime.fromMillisecondsSinceEpoch(date * 1000, isUtc: false);
+    DateFormat dateFormat = DateFormat("dd-MM-yyyy HH:mm:ss a");
+    var returnData = dateFormat.format(tempData);
+    return returnData;
+  }
+
+  void onModelReady() async {
     print('init the home');
     getAllReport(pages);
     getLocation();
+
+    await _locationService.checkService();
   }
 
   void goAnotherView(String routeName) async {
@@ -47,118 +58,120 @@ class HomeViewModel extends BaseModel {
   void sendCondition(BuildContext context, String condition) async {
     getLocation();
     final date = DateTime.now().millisecondsSinceEpoch.toString();
-    final timestamp = date.substring(0,10); 
+    final timestamp = date.substring(0, 10);
     print(timestamp);
     final name = await _storageService.getString(K_NAME);
     final company = await _storageService.getString(K_COMPANY);
     final unit = await _storageService.getString(K_UNIT);
     final guid = await _storageService.getString(K_GUID);
 
-    switch(condition) {
-      case "sehat": {
-        //kirim ke RMQ
-        var message = SendAbsen(
-          address: '$address',
-          cmdType: 0,
-          company: '$company',
-          description: 'Saya Sehat',
-          guid: '$guid',
-          image: 'data/kehadiran/sayasehatemoticon.png',
-          lat: '$lat',
-          long: '$lng',
-          localImage: '-',
-          msgType: 1,
-          name: '$name',
-          status: 'REPORT',
-          timestamp: '$timestamp',
-          unit: '$unit');
+    switch (condition) {
+      case "sehat":
+        {
+          //kirim ke RMQ
+          var message = SendAbsen(
+              address: '$address',
+              cmdType: 0,
+              company: '$company',
+              description: 'Saya Sehat',
+              guid: '$guid',
+              image: 'data/kehadiran/sayasehatemoticon.png',
+              lat: '$lat',
+              long: '$lng',
+              localImage: '-',
+              msgType: 1,
+              name: '$name',
+              status: 'REPORT',
+              timestamp: '$timestamp',
+              unit: '$unit');
 
-        final data = sendAbsenToJson(message);
-        _rmqService.publish(data);
+          final data = sendAbsenToJson(message);
+          _rmqService.publish(data);
 
-        //kasih popup sukses
-       _alertService.showSuccess(
-          context,
-          'Pesan Terkirim',
-          'Saya Sehat',
-          () {
-            _navigationService.replaceTo(HomeViewRoute);
-          },
-        );
-      }
-      break;
-      case "sakit": {
-        //kirim ke RMQ
-        //kirim ke RMQ
-        var message = SendAbsen(
-          address: '$address',
-          cmdType: 0,
-          company: '$company',
-          description: 'Saya Sakit',
-          guid: '$guid',
-          image: 'data/kehadiran/sayasakitemoticon.png',
-          lat: '$lat',
-          long: '$lng',
-          localImage: '-',
-          msgType: 1,
-          name: '$name',
-          status: 'REPORT',
-          timestamp: '$timestamp',
-          unit: '$unit');
+          //kasih popup sukses
+          _alertService.showSuccess(
+            context,
+            'Pesan Terkirim',
+            'Saya Sehat',
+            () {
+              _navigationService.replaceTo(HomeViewRoute);
+            },
+          );
+        }
+        break;
+      case "sakit":
+        {
+          //kirim ke RMQ
+          //kirim ke RMQ
+          var message = SendAbsen(
+              address: '$address',
+              cmdType: 0,
+              company: '$company',
+              description: 'Saya Sakit',
+              guid: '$guid',
+              image: 'data/kehadiran/sayasakitemoticon.png',
+              lat: '$lat',
+              long: '$lng',
+              localImage: '-',
+              msgType: 1,
+              name: '$name',
+              status: 'REPORT',
+              timestamp: '$timestamp',
+              unit: '$unit');
 
-        final data = sendAbsenToJson(message);
-        _rmqService.publish(data);
+          final data = sendAbsenToJson(message);
+          _rmqService.publish(data);
 
-        //kasih popup sakit
-         _alertService.showSuccess(
-          context,
-          'Pesan Terkirim',
-          'Saya sakit',
-          () {
-            _navigationService.replaceTo(HomeViewRoute);
-          },
-        );
-      }
-      break;
-      case "tolong": {
-        //kirim ke RMQ
-        //kirim ke RMQ
-        var message = SendAbsen(
-          address: '$address',
-          cmdType: 0,
-          company: '$company',
-          description: 'Saya Butuh Pertolongan',
-          guid: '$guid',
-          image: 'data/kehadiran/needahugemoticon.png',
-          lat: '$lat',
-          long: '$lng',
-          localImage: '-',
-          msgType: 1,
-          name: '$name',
-          status: 'REPORT',
-          timestamp: '$timestamp',
-          unit: '$unit');
+          //kasih popup sakit
+          _alertService.showSuccess(
+            context,
+            'Pesan Terkirim',
+            'Saya sakit',
+            () {
+              _navigationService.replaceTo(HomeViewRoute);
+            },
+          );
+        }
+        break;
+      case "tolong":
+        {
+          //kirim ke RMQ
+          //kirim ke RMQ
+          var message = SendAbsen(
+              address: '$address',
+              cmdType: 0,
+              company: '$company',
+              description: 'Saya Butuh Pertolongan',
+              guid: '$guid',
+              image: 'data/kehadiran/needahugemoticon.png',
+              lat: '$lat',
+              long: '$lng',
+              localImage: '-',
+              msgType: 1,
+              name: '$name',
+              status: 'REPORT',
+              timestamp: '$timestamp',
+              unit: '$unit');
 
-        final data = sendAbsenToJson(message);
-        _rmqService.publish(data);
+          final data = sendAbsenToJson(message);
+          _rmqService.publish(data);
 
-        //kasih popup tolong
-         _alertService.showSuccess(
-          context,
-          'Pesan Terkirim',
-          'Saya Butuh pertolongan',
-          () {
-            _navigationService.replaceTo(HomeViewRoute);
-          },
-        );
-      }
-      break;
-      default: {
-      }
-      break;
+          //kasih popup tolong
+          _alertService.showSuccess(
+            context,
+            'Pesan Terkirim',
+            'Saya Butuh pertolongan',
+            () {
+              _navigationService.replaceTo(HomeViewRoute);
+            },
+          );
+        }
+        break;
+      default:
+        {}
+        break;
     }
   }
-
 
   void clearBeforeSignOut() async {
     await _storageService.clearStorage();
@@ -167,8 +180,8 @@ class HomeViewModel extends BaseModel {
 
   void signOut(BuildContext context) {
     setBusy(true);
-    _alertService.showSignOut(context, 'Sign Out ?', "",
-        clearBeforeSignOut, _navigationService.pop);
+    _alertService.showSignOut(
+        context, 'Sign Out ?', "", clearBeforeSignOut, _navigationService.pop);
     setBusy(false);
     print('User Sign Out !');
   }
@@ -237,24 +250,15 @@ class HomeViewModel extends BaseModel {
     return data;
   }
 
-  String formatDate(int date) {
-     var tempData = new DateTime.fromMillisecondsSinceEpoch(date *1000, isUtc: false);
-    DateFormat dateFormat = DateFormat("dd-MM-yyyy HH:mm");
-    var returnData = dateFormat.format(tempData);
-    return returnData;
-  }
-
   Future<void> getLocation() async {
-    try{
-    final userLocation = await _geolocatorService.getCurrentLocation();
-    lat = userLocation.latitude;
-    lng = userLocation.longitude;
-    address = userLocation.addressLine;
-    setBusy(false);
-
-    }catch(e){
+    try {
+      final userLocation = await _geolocatorService.getCurrentLocation();
+      lat = userLocation.latitude;
+      lng = userLocation.longitude;
+      address = userLocation.addressLine;
       setBusy(false);
-      
+    } catch (e) {
+      setBusy(false);
     }
   }
 }

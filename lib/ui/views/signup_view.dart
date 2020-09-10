@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:pklonline/ui/shared/shared_style.dart';
 import 'package:pklonline/ui/shared/ui_helper.dart';
+import 'package:pklonline/ui/widget/text_field_onchanged_widget.dart';
 import 'package:pklonline/ui/widget/text_field_widget.dart';
 import 'package:pklonline/viewmodels/signup_view_model.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,52 @@ class _SignUpViewState extends State<SignUpView> {
                         keyboardType: TextInputType.emailAddress,
                         isPassword: false,
                         textFieldController: model.emailController,
+                      ),
+                      verticalSpaceSmall,
+                      TextFieldOnChangedWidget(
+                        hintText: 'Registration Code',
+                        icon: Icons.code,
+                        keyboardType: TextInputType.text,
+                        isPassword: false,
+                        onChanged: (value) {
+                          if (value != null && value.toString().isNotEmpty) {
+                            model.company = value;
+                            model.getCompanyUnit(value);
+                          }
+                        },
+                      ),
+                      Visibility(
+                        visible: model.changeVisibility(),
+                        child: verticalSpaceSmall,
+                      ),
+                      Visibility(
+                        visible: model.changeVisibility(),
+                        child: Container(
+                          padding: fieldPadding,
+                          width: screenWidthPercent(
+                            context,
+                            multipleBy: 0.9,
+                          ),
+                          height: fieldHeight,
+                          child: DropdownButton(
+                            isExpanded: true,
+                            hint: Text('Choose Unit'),
+                            value: model.unitSelected,
+                            items: model.units == null
+                                ? null
+                                : model.units.map(
+                                    (value) {
+                                      return DropdownMenuItem(
+                                        child: Text(value),
+                                        value: value,
+                                      );
+                                    },
+                                  ).toList(),
+                            onChanged: (value) {
+                              model.onUnitChanged(value);
+                            },
+                          ),
+                        ),
                       ),
                       verticalSpaceSmall,
                       TextFieldWidget(

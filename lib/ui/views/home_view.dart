@@ -14,13 +14,25 @@ class HomeView extends StatelessWidget {
       viewModelBuilder: () => HomeViewModel(),
       onModelReady: (model) => model.onModelReady(),
       builder: (context, model, child) => Scaffold(
+          appBar: AppBar(
+            title: Text("Pkl Online"),
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    Icons.exit_to_app,
+                    color: Color(0xFFffffff),
+                  ),
+                  onPressed: () => model.signOut(context))
+            ],
+          ),
           body: SafeArea(
             child: ListView.builder(
               itemCount: model.absenData.length,
               itemBuilder: (context, i) {
                 return ListContentWidget(
                   content: '${model.absenData[i].description}',
-                  date: '${model.absenData[i].timestamp}',
+                  date: '${model.formatDate(model.absenData[i].timestamp)}',
                   address: '${model.absenData[i].address}',
                   imageUrl:
                       'http://pklonline.pptik.id/${model.absenData[i].image}',

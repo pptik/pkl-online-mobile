@@ -107,7 +107,7 @@ class SignUpViewModel extends BaseModel {
           setBusy(false);
 
           // User already registered
-          _alertService.showError(context, 'Error',
+          _alertService.showError(context, 'Error ${data.code}',
               'Something went wrong ' + data.message, _navigationService.pop);
         }
       } else {

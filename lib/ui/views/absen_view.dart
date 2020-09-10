@@ -33,6 +33,7 @@ class _AbsenViewState extends State<AbsenView> {
     // TODO: implement build
     return ViewModelBuilder<AbsenViewModel>.reactive(
       viewModelBuilder: () => AbsenViewModel(),
+      onModelReady: (model) => model.openLocationSetting(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           title: Text('Report Task'),
