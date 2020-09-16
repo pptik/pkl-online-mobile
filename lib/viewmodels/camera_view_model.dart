@@ -17,11 +17,12 @@ class CameraViewModel extends BaseModel {
   int selectedCameraIdx;
   String imagePath;
   String date = '';
-
-  void initModel(bool mounted) {
+  String guid = '';
+  void initModel(bool mounted) async {
     getAvailableCamera(mounted);
+    guid = await _storageService.getString(K_GUID);
   }
-  
+
   void getAvailableCamera(bool mounted) {
     availableCameras().then((availableCameras) {
       cameras = availableCameras;
@@ -79,7 +80,7 @@ class CameraViewModel extends BaseModel {
   }
 
   void onCapturePressed(context) async {
-      final guid = await _storageService.getString(K_GUID);
+    final guid = await _storageService.getString(K_GUID);
 
     // Take the Picture in a try / catch block. If anything goes wrong,
     // catch the error.
@@ -87,12 +88,12 @@ class CameraViewModel extends BaseModel {
       final directory = await getExternalStorageDirectory();
       // Attempt to take a picture and log where it's been saved
       final dateFormat = formatDate();
-      final fileName = '${dateFormat.toString()}-PPTIK.png';
+      final fileName = '$guid-${dateFormat.toString()}-PPTIK.png';
       final path = join(
         // In this example, store the picture in the temp directory. Find
         // the temp directory using the `path_provider` plugin.
         (await getTemporaryDirectory()).path,
-      '${dateFormat.toString()}-PPTIK.png',
+        '$guid-${dateFormat.toString()}-PPTIK.png',
       );
       print("eksplorer ${directory.path}");
       await controller.takePicture(path);
