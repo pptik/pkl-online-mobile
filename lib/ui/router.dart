@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pklonline/constants/route_name.dart';
 import 'package:pklonline/ui/views/absen_view.dart';
 import 'package:pklonline/ui/views/camera_view.dart';
+import 'package:pklonline/ui/views/change_pw_view.dart';
 import 'package:pklonline/ui/views/home_view.dart';
 import 'package:pklonline/ui/views/login_view.dart';
 import 'package:pklonline/ui/views/profile_view.dart';
@@ -44,11 +45,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 //        routeName: settings.name,
 //        viewToShow: EditProfileView(),
 //      );
-//    case EditChangePwRoute:
-//      return _pageRoute(
-//        routeName: settings.name,
-//        viewToShow: EditPasswordView(),
-//      );
+    case EditChangePwRoute:
+      return _pageRoute(
+        routeName: settings.name,
+        viewToShow: EditPasswordView(),
+      );
 
     default:
       return MaterialPageRoute(
