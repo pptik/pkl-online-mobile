@@ -13,10 +13,11 @@ class StartUpViewModel extends BaseModel {
   final StorageService _storageService = locator<StorageService>();
   final PermissionsService _permissionsService = locator<PermissionsService>();
 
-  checkPermission() async{
+  checkPermission() async {
     var _check = _permissionsService.checkStatus();
     print("data _ $_check");
   }
+
   startTimer() async {
     var _duration = Duration(seconds: 2);
     return Timer(_duration, handleStartUpLogic);

@@ -33,7 +33,7 @@ class ProfileViewModel extends BaseModel {
     phoneNumber = await _storageService.getString(K_PHONE_NUMBER);
     email = await _storageService.getString(K_EMAIL);
     unit = await _storageService.getString(K_UNIT);
-    image = 'http://absensi-selfie.pptik.id/data/kehadiran/image/' + tempImage;
+    image = 'http://pklonline.pptik.id/data/kehadiran/image/' + tempImage;
     print('the image $image and $tempImage');
     setBusy(false);
   }

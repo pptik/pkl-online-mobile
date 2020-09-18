@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pklonline/constants/helper.dart';
 import 'package:pklonline/constants/route_name.dart';
 import 'package:pklonline/ui/shared/colors_helper.dart';
 import 'package:pklonline/ui/widget/list_content_widget.dart';
@@ -18,12 +19,27 @@ class HomeView extends StatelessWidget {
             title: Text("Pkl Online"),
             centerTitle: true,
             actions: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    Icons.exit_to_app,
-                    color: Color(0xFFffffff),
-                  ),
-                  onPressed: () => model.signOut(context))
+              PopupMenuButton<String>(
+                onSelected: (item) async {
+                  print('item selected $item');
+                  if (item.contains('Profile')) {
+                    model.goAnotherView(ProfileViewRoute);
+                  } else {
+                    print('getting out');
+                    model.signOut(context);
+                  }
+                },
+                itemBuilder: (context) {
+                  return Helper.choices.map(
+                    (choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    },
+                  ).toList();
+                },
+              ),
             ],
           ),
           body: SafeArea(

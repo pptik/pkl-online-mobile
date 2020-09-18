@@ -4,6 +4,7 @@ import 'package:pklonline/ui/views/absen_view.dart';
 import 'package:pklonline/ui/views/camera_view.dart';
 import 'package:pklonline/ui/views/home_view.dart';
 import 'package:pklonline/ui/views/login_view.dart';
+import 'package:pklonline/ui/views/profile_view.dart';
 import 'package:pklonline/ui/views/signup_view.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,11 +24,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name,
         viewToShow: HomeView(),
       );
-//    case ProfileViewRoute:
-//      return _pageRoute(
-//        routeName: settings.name,
-//        viewToShow: ProfileView(),
-//      );
+    case ProfileViewRoute:
+      return _pageRoute(
+        routeName: settings.name,
+        viewToShow: ProfileView(),
+      );
     case AbsenViewRoute:
       return _pageRoute(
         routeName: settings.name,
