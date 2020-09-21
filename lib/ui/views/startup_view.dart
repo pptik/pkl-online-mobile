@@ -50,7 +50,7 @@ class StartUpView extends StatelessWidget {
               ),
               verticalSpaceMedium,
               Text(
-                '1.0.4',
+                '1.0.5',
                 style: textButtonTextStyle,
               )
             ],
