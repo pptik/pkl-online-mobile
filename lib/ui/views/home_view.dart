@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pklonline/constants/helper.dart';
 import 'package:pklonline/constants/route_name.dart';
 import 'package:pklonline/ui/shared/colors_helper.dart';
+import 'package:pklonline/ui/widget/fab_bottom_app_bar.dart';
 import 'package:pklonline/ui/widget/list_content_widget.dart';
 import 'package:pklonline/viewmodels/home_view_model.dart';
 import 'package:stacked/stacked.dart';
@@ -65,7 +66,29 @@ class HomeView extends StatelessWidget {
               model.goAnotherView(AbsenViewRoute);
             },
             heroTag: "AbsenViewRoute",
-          )),
+          )
+          // bottomNavigationBar: FABBottomAppBar(
+          //   color: Colors.grey,
+          //   selectedColor: Colors.blue,
+          //   notchedShape: CircularNotchedRectangle(),
+          //   // onTabSelected: _selectedTab,
+
+          //   items: [
+          //     FABBottomAppBarItem(iconData: Icons.home, text: 'Home'),
+          //     FABBottomAppBarItem(iconData: Icons.tag_faces, text: 'Profile'),
+          //   ],
+          // ),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerDocked,
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: bluePrimary,
+          //   child: Icon(Icons.add),
+          //   onPressed: () {
+          //     model.goAnotherView(AbsenViewRoute);
+          //   },
+          //   heroTag: "AbsenViewRoute",
+          // )
+          ),
     );
   }
 }

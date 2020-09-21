@@ -50,7 +50,7 @@ const TextStyle cardTitleTextStyle = const TextStyle(
 const TextStyle cardTitleYellowTextStyle = const TextStyle(
   fontSize: 18.0,
   fontWeight: FontWeight.w400,
-  color: Colors.yellowAccent,
+  color: Colors.redAccent,
 );
 
 const TextStyle cardContentTextStyle = const TextStyle(
@@ -73,7 +73,7 @@ const TextStyle homeContentTextStyle = const TextStyle(
 
 const TextStyle homeNameTextStyle = const TextStyle(
   fontSize: 14.0,
-  color: text_little,  
+  color: text_little,
   fontWeight: FontWeight.bold,
 );
 const TextStyle absenContentTextStyle = const TextStyle(

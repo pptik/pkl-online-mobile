@@ -36,7 +36,7 @@ class TextFieldWidget extends StatelessWidget {
           border: OutlineInputBorder(),
           prefixIcon: Icon(
             icon,
-            color: Colors.white,
+            color: Colors.black12,
           ),
           hintText: '$hintText',
         ),

@@ -124,16 +124,16 @@ class ProfileView extends StatelessWidget {
                                     'Class',
                                     style: cardTitleTextStyle,
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      // locator<VibrateService>().vibrateOn();
-                                      model.goToEditProfile();
-                                    },
-                                    child: Text(
-                                      'Edit',
-                                      style: cardTitleYellowTextStyle,
-                                    ),
-                                  ),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     // locator<VibrateService>().vibrateOn();
+                                  //     model.goToEditProfile();
+                                  //   },
+                                  //   child: Text(
+                                  //     'Edit',
+                                  //     style: cardTitleYellowTextStyle,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -153,20 +153,25 @@ class ProfileView extends StatelessWidget {
                             context,
                             multipleBy: 0.95,
                           ),
-                          child: FlatButton(
+                          child: MaterialButton(
                             onPressed: () {
                               model.goToChangePassword();
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: Text(
-                                      "Change Password",
-                                      style: cardTitleYellowTextStyle,
-                                    )),
-                              ],
+                            }, //since this is only a UI app
+                            child: Text(
+                              'Change Password',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'SFUIDisplay',
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            color: Color(0xffff2d55),
+                            elevation: 0,
+                            minWidth: 400,
+                            height: 50,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                           )),
                     ),
                     verticalSpaceSmall,

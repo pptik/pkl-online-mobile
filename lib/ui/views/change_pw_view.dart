@@ -22,7 +22,6 @@ class EditPasswordView extends StatelessWidget {
       viewModelBuilder: () => EditPasswordViewModel(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey[850],
           elevation: 0.0,
           title: Text('Change Password'),
           centerTitle: true,
@@ -59,13 +58,26 @@ class EditPasswordView extends StatelessWidget {
                       textFieldController: model.confirmationPasswordController,
                     ),
                     verticalSpaceLarge,
-                    ButtonWidget(
-                      title: 'Save',
-                      onPressedFunction: () {
-                        // model.register(context);
+                    MaterialButton(
+                      onPressed: () {
                         model.onUpdtePassword(context);
-                      },
-                    ),
+                      }, //since this is only a UI app
+                      child: Text(
+                        'Save Password',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'SFUIDisplay',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      color: Color(0xffff2d55),
+                      elevation: 0,
+                      minWidth: 400,
+                      height: 50,
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    )
                   ],
                 ),
               ),
