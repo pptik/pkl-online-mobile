@@ -6,7 +6,7 @@ import 'package:pklonline/ui/shared/shared_style.dart';
 import 'package:pklonline/ui/shared/ui_helper.dart';
 import 'package:pklonline/ui/widget/text_field_onchanged_widget.dart';
 import 'package:pklonline/ui/widget/text_field_widget.dart';
-import 'package:pklonline/viewmodels/signup_view_model.dart';
+import 'package:pklonline/viewmodels/sign_up_view_model.dart';
 import 'package:provider/provider.dart';
 //import 'package:provider_architecture/provider_architecture.dart';
 import 'package:stacked/stacked.dart';

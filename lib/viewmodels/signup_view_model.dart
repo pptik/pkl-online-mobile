@@ -93,7 +93,7 @@ class SignUpViewModel extends BaseModel {
           idCard,
           companies,
           imagePath,
-          profesiSelected,
+          unitSelected,
           phoneNumber,
           File(imagePath),
         );

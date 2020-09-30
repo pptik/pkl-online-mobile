@@ -11,7 +11,7 @@ import 'package:stacked/stacked.dart';
 class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Lock Orientation Portait Only
+    // Lock Orientation Portaait Only
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
