@@ -91,7 +91,7 @@ class LoginView extends StatelessWidget {
                       child: Center(
                         child: new GestureDetector(
                           onTap: (){
-                            model.changePassword(context);
+                            // model.changePassword(context);
                           },
                           child:Text(
                             'Forgot your password?',
