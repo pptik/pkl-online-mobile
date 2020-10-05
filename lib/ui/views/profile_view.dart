@@ -124,16 +124,20 @@ class ProfileView extends StatelessWidget {
                                     'Class',
                                     style: cardTitleTextStyle,
                                   ),
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     // locator<VibrateService>().vibrateOn();
-                                  //     model.goToEditProfile();
-                                  //   },
-                                  //   child: Text(
-                                  //     'Edit',
-                                  //     style: cardTitleYellowTextStyle,
-                                  //   ),
-                                  // ),
+                                  InkWell(
+                                    onTap: () {
+                                      // locator<VibrateService>().vibrateOn();
+                                      model.goToEditKelas().then((content) => {
+                                        if(content=="update_sukses"){
+                                          model.loadProfile()
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      'Edit',
+                                      style: cardTitleYellowTextStyle,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

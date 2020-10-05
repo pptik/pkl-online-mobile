@@ -89,12 +89,17 @@ class LoginView extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Center(
-                        child: Text(
-                          'Forgot your password?',
-                          style: TextStyle(
-                              fontFamily: 'SFUIDisplay',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                        child: new GestureDetector(
+                          onTap: (){
+                            model.changePassword(context);
+                          },
+                          child:Text(
+                            'Forgot your password?',
+                            style: TextStyle(
+                                fontFamily: 'SFUIDisplay',
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),

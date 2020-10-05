@@ -37,8 +37,14 @@ class ProfileViewModel extends BaseModel {
     print('the image $image and $tempImage');
     setBusy(false);
   }
+  
 
   void goToChangePassword() {
     _navigationService.navigateTo(EditChangePwRoute);
   }
+
+  Future<dynamic> goToEditKelas(){
+    return _navigationService.navigateTo(EditKelasRoute);
+  }
 }
+
