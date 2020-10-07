@@ -38,6 +38,7 @@ class _ChangeKelasViewState extends State<ChangeKelasView> {
 
     return ViewModelBuilder<ChangeKelasViewModel>.reactive(
       viewModelBuilder: () => ChangeKelasViewModel(),
+      onModelReady:(model)=> model.onModelReady(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           elevation: 0.0,
@@ -53,25 +54,7 @@ class _ChangeKelasViewState extends State<ChangeKelasView> {
                   child: Column(
                     children: <Widget>[
                       verticalSpaceLarge,
-                      TextFieldOnChangedWidget(
-                        hintText: 'Registration Code',
-                        icon: Icons.code,
-                        keyboardType: TextInputType.text,
-                        isPassword: false,
-                        onChanged: (value) {
-                          if (value != null && value.toString().isNotEmpty) {
-                            model.company = value;
-                            model.getCompanyUnit(value);
-                          }
-                        },
-                      ),
-                      Visibility(
-                        visible: model.changeVisibility(),
-                        child: verticalSpaceSmall,
-                      ),
-                      Visibility(
-                        visible: model.changeVisibility(),
-                        child: Container(
+                      Container(
                           padding: fieldPadding,
                           width: screenWidthPercent(
                             context,
@@ -97,7 +80,39 @@ class _ChangeKelasViewState extends State<ChangeKelasView> {
                             },
                           ),
                         ),
-                      ),
+                      // Visibility(
+                      //   visible: model.changeVisibility(),
+                      //   child: verticalSpaceSmall,
+                      // ),
+                      // Visibility(
+                      //   visible: model.changeVisibility(),
+                      //   child: Container(
+                      //     padding: fieldPadding,
+                      //     width: screenWidthPercent(
+                      //       context,
+                      //       multipleBy: 0.9,
+                      //     ),
+                      //     height: fieldHeight,
+                      //     child: DropdownButton(
+                      //       isExpanded: true,
+                      //       hint: Text('Choose Unit'),
+                      //       value: model.unitSelected,
+                      //       items: model.units == null
+                      //           ? null
+                      //           : model.units.map(
+                      //               (value) {
+                      //                 return DropdownMenuItem(
+                      //                   child: Text(value),
+                      //                   value: value,
+                      //                 );
+                      //               },
+                      //             ).toList(),
+                      //       onChanged: (value) {
+                      //         model.onUnitChanged(value);
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: EdgeInsets.only(top: 20),
                         child: MaterialButton(

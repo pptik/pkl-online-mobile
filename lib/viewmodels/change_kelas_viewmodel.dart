@@ -24,13 +24,19 @@ class ChangeKelasViewModel extends BaseModel {
   String company;
   String imagePath;
 
+  void onModelReady() async {
+    final companyCode = await _storageService.getString(K_COMPANY);
+    await getCompanyUnit(companyCode);
+  }
+
   void updateKelas(BuildContext context) async {
     setBusy(true);
     try {
-      if (company.length != null &&
-          unitSelected.length != null) {
-        final companies = company;
+      if (unitSelected.length != null) {
+        // final companies = company;
+        
         final guid = await _storageService.getString(K_GUID);
+        final companies = await _storageService.getString(K_COMPANY);
         final data = await _apiService.updateCompanyUnit(
           guid, 
           companies, 
@@ -38,7 +44,7 @@ class ChangeKelasViewModel extends BaseModel {
         if (data.code == 200) {
           FocusScope.of(context).unfocus();
           setBusy(false);
-          await _storageService.setString(K_COMPANY, companies);
+          // await _storageService.setString(K_COMPANY, companies);
           await _storageService.setString(K_UNIT, unitSelected);
           // navigate to home
           _alertService
@@ -89,8 +95,8 @@ class ChangeKelasViewModel extends BaseModel {
     setBusy(false);
     unitSelected = null;
     units.clear();
-
-    final unit = await _apiService.getCompanyUnit(code);
+    // final unit = await _apiService.getCompanyUnit(code, isUUID:true);
+    final unit = await _apiService.getCompanyUnit("462g9");
     if (unit != null) {
       unit.data.forEach(
         (value) {
