@@ -49,4 +49,10 @@ class LoginViewModel extends BaseModel {
 
     setBusy(false);
   }
+
+  void changePassword(BuildContext context) async {
+    setBusy(true);
+    _navigationService.navigateTo(ForgotPwRoute);
+    setBusy(false);
+  }
 }

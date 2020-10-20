@@ -44,7 +44,8 @@ class HomeViewModel extends BaseModel {
     print('init the home');
     getAllReport(pages);
     getLocation();
-
+    String code = await _storageService.getString(K_COMPANY);
+    print("Model Ready Code : "+code);
     await _locationService.checkService();
   }
 
@@ -193,6 +194,7 @@ class HomeViewModel extends BaseModel {
     final company = await _storageService.getString(K_COMPANY);
     final guid = await _storageService.getString(K_GUID);
     data = await _apiService.getReport(company, guid, page);
+    print(data.data);
     // totalPages = data.numberOfPages;
     data.data.forEach(
       (val) {

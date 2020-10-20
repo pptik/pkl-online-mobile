@@ -7,6 +7,8 @@ import 'package:pklonline/ui/views/home_view.dart';
 import 'package:pklonline/ui/views/login_view.dart';
 import 'package:pklonline/ui/views/profile_view.dart';
 import 'package:pklonline/ui/views/signup_view.dart';
+import 'package:pklonline/ui/views/forgot_pw_view.dart';
+import 'package:pklonline/ui/views/change_kelas_view.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -49,6 +51,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _pageRoute(
         routeName: settings.name,
         viewToShow: EditPasswordView(),
+      );
+    case EditKelasRoute:
+      return _pageRoute(
+        routeName: settings.name,
+        viewToShow: ChangeKelasView(),
+      );
+    case ForgotPwRoute:
+      return _pageRoute(
+        routeName: settings.name,
+        viewToShow: ForgotPwView(),
       );
 
     default:

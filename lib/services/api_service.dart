@@ -35,6 +35,7 @@ class ApiService {
           filename: Path.basename(imageFile.path));
       final registerUrl = Uri.parse('${BASE_URL_V2}users/register');
       print(registerUrl);
+      print(company);
       final request = http.MultipartRequest('POST', registerUrl)
         ..fields['name'] = name
         ..fields['email'] = email
@@ -123,13 +124,16 @@ class ApiService {
     }
   }
 
-  Future<CompanyUnitData> getCompanyUnit(String companyCode) async {
+  Future<CompanyUnitData> getCompanyUnit(String companyCode, {isUUID:false}) async {
     final client = http.Client();
     try {
-      final reportUrl = '${BASE_URL_V2}company/$companyCode/units?code=true';
+      String url = '${BASE_URL_V2}company/$companyCode/units';
+      if(isUUID){
+        url = '${BASE_URL_V2}company/$companyCode/units?guid=true';
+      }
+      final reportUrl = url;
       final response = await client.get(reportUrl);
       final companyUnitData = companyUnitDataFromJson(response.body);
-
       if (companyUnitData.code != 200) {
         return null;
       }
@@ -200,6 +204,7 @@ class ApiService {
   ) async {
     final client = http.Client();
     try {
+      print("b97e6a59-6db6-46be-a6db-7c1868d81f24");
       final reportUrl = '${BASE_URL_V2}users/profile/update';
       final response = await client.patch(
         reportUrl,
